@@ -47,11 +47,9 @@ def main():
 
             if assistant.has_reminders_to_notify():
                 # Notificamos los reminders y continuamos 
-                print('Se cumplieron los siguientes recordatorios:')
                 reminders = assistant.get_reminders()
-                for r in reminders:
-                    print(r)
-                    reminders.pop(0)
+                assistant.notify_reminders(reminders)
+                reminders.clear()
 
             new_t = assistant.process_cmd()
 
@@ -59,6 +57,7 @@ def main():
 
             time.sleep(5)
     except (KeyboardInterrupt, Exception) as ex:
+        print(f"Ejecucion finalizada por: {traceback.format_exc()}")
         execute = False
         if t_condition.acquire():
             t_condition.notify()
